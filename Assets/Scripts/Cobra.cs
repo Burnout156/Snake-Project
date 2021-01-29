@@ -22,9 +22,9 @@ public class Cobra : MonoBehaviour
         movimentacaoTempoGradeMaximo = 0.3f;
         movimentacaoTempoGrade = movimentacaoTempoGradeMaximo;
         posicaoGrade = new Vector2Int(posicaoInicial.x, posicaoInicial.y);
-        tamanhoCorpoCobra = 1;
         listaPosicoesMovimentosCobra = new List<Vector2Int>();
-        posicaoGrade.y += 1;
+        tamanhoCorpoCobra = 0;
+        //posicaoGrade.y += 1;
     }
 
     void Update()
@@ -42,25 +42,21 @@ public class Cobra : MonoBehaviour
     {
         if (Input.GetKeyDown(botoesMovimento[0])) //se apertar a tecla pra cima, ele acrescenta o valor y
         {
-            posicaoGrade.y += 1;
             direcaoMovimentoGrade = new Vector2Int(0, 1);
         }
 
         if (Input.GetKeyDown(botoesMovimento[1])) //se apertar a tecla pra baixo, ele diminuiu o valor y
         {
-            posicaoGrade.y -= 1;
             direcaoMovimentoGrade = new Vector2Int(0, -1);
         }
 
         if (Input.GetKeyDown(botoesMovimento[2])) //se apertar a tecla pra esquerda, ele diminuiu o valor x
         {
-            posicaoGrade.x -= 1;
             direcaoMovimentoGrade = new Vector2Int(-1, 0);
         }
 
         if (Input.GetKeyDown(botoesMovimento[3])) //se apertar a tecla pro lado, ele acrescenta o valor x
         {
-            posicaoGrade.x += 1;
             direcaoMovimentoGrade = new Vector2Int(1, 0);
         }
     }
