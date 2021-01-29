@@ -1,25 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Codigos;
 
 public class Cobra : MonoBehaviour
 {
     private Vector2Int direcaoMovimentoGrade; //para saber qual direção deve se movimentar dependendo do movimento da cobra
     private Vector2Int posicaoGrade; //para saber a posição da cobra no espaço do mapa
+    public Vector2Int posicaoInicial; //para saber onde cada cobra vai começar
+    public Vector2Int direcaoInicial; //para saber qual direção cada cobra vai começar
     private float movimentacaoTempoGrade; //variável para se movimentar automaticamente a cada segundo
     private float movimentacaoTempoGradeMaximo; //variável para saber o máximo de passos que ele pode se mover automaticamente a cada segundo
     private GradeNivel gradeNivel;
-    public Vector2Int posicaoInicial; //para saber onde cada cobra vai começar
-    public Vector2Int direcaoInicial; //para saber qual direção cada cobra vai começar
-    public List<KeyCode> botoesMovimento;
+    public List<KeyCode> botoesMovimento; //para diferenciar os botões de movimentação de cada jogador
+    public List<Vector2Int> listaPosicoesMovimentosCobra; //para saber quais lugares ela passou e assim colocar os quadrados nos lugares
+    public int tamanhoCorpoCobra; //para saber quantos quadrados vão ter que ser postos acoplados a cobra
 
     void Start()
     {
-        posicaoGrade = new Vector2Int(posicaoInicial.x, posicaoInicial.y);
-        posicaoGrade.y += 1;
+        direcaoMovimentoGrade = new Vector2Int(direcaoInicial.x, direcaoInicial.y);
         movimentacaoTempoGradeMaximo = 0.3f;
         movimentacaoTempoGrade = movimentacaoTempoGradeMaximo;
-        direcaoMovimentoGrade = new Vector2Int(direcaoInicial.x, direcaoInicial.y);
+        posicaoGrade = new Vector2Int(posicaoInicial.x, posicaoInicial.y);
+        tamanhoCorpoCobra = 1;
+        listaPosicoesMovimentosCobra = new List<Vector2Int>();
+        posicaoGrade.y += 1;
     }
 
     void Update()
@@ -66,11 +71,25 @@ public class Cobra : MonoBehaviour
 
         if (movimentacaoTempoGrade >= movimentacaoTempoGradeMaximo)
         {
-            posicaoGrade += direcaoMovimentoGrade;
             movimentacaoTempoGrade -= movimentacaoTempoGradeMaximo;
+            listaPosicoesMovimentosCobra.Insert(0, posicaoGrade);
+            posicaoGrade += direcaoMovimentoGrade;
+
+            if (listaPosicoesMovimentosCobra.Count >= tamanhoCorpoCobra + 1)
+            {
+                listaPosicoesMovimentosCobra.RemoveAt(listaPosicoesMovimentosCobra.Count - 1);
+            }
+
+            for(int i = 0; i < listaPosicoesMovimentosCobra.Count; i++)
+            {
+                Vector2Int posicaoMovimentoCobra = listaPosicoesMovimentosCobra[i];
+                SpriteGlobal spriteGlobal =  SpriteGlobal.Criar(new Vector3(posicaoMovimentoCobra.x, posicaoMovimentoCobra.y), Vector3.one * .5f, Color.white);
+                FuncaoTemporizadora.Criar(spriteGlobal.AutoDestruicao, movimentacaoTempoGradeMaximo);
+            }
+
             transform.position = new Vector3(posicaoGrade.x, posicaoGrade.y); //e aqui ele se movimenta conforme o jogador desejar
             transform.eulerAngles = new Vector3(0, 0, PegarAngulo(direcaoMovimentoGrade));
-            //gradeNivel.CobraSeMoveu(posicaoGrade);
+
         }
     }
 
@@ -92,6 +111,7 @@ public class Cobra : MonoBehaviour
         {
             Destroy(collision.gameObject);
             gradeNivel.GerarComida();
+            tamanhoCorpoCobra++;
         }
     }
 }
