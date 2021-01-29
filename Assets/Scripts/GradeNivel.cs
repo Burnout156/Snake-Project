@@ -6,23 +6,42 @@ using Codigos;
 public class GradeNivel : MonoBehaviour
 {
     private Vector2Int posicaoGradeBloco; //posição onde o bloco vai ser posto
+    public GameObject blocoObjeto;
     private int largura;
     private int altura;
+    public Cobra cobra;
 
     public GradeNivel(int largura, int altura)
     {
         this.largura = largura;
         this.altura = altura;
+        blocoObjeto = Resources.Load<GameObject>("Bloco");
+        Debug.Log("Bloco Objeto: " + blocoObjeto.name);
         GerarComida();
-        FuncaoPeriodica.Criar(GerarComida, 1f);
+        //FuncaoPeriodica.Criar(GerarComida, 10f);
     }
 
-    private void GerarComida()
+    public void Configuracao(Cobra _cobra)
     {
-        posicaoGradeBloco = new Vector2Int(Random.Range(0, largura), Random.Range(0, altura));
+        this.cobra = _cobra;
+    }
 
-        GameObject blocoObjeto = new GameObject("Bloco", typeof(SpriteRenderer));
-        blocoObjeto.GetComponent<SpriteRenderer>().sprite = RecursosJogo.instancia.blocoSprite;
+    public void GerarComida()
+    {
+        posicaoGradeBloco = new Vector2Int(Random.Range(-8, largura), Random.Range(-4, altura));
+
+        Instantiate(blocoObjeto);
+        //blocoObjeto = new GameObject("Bloco", typeof(SpriteRenderer));
+        //blocoObjeto.GetComponent<SpriteRenderer>().sprite = RecursosJogo.instancia.blocoSprite;
         blocoObjeto.transform.position = new Vector2(posicaoGradeBloco.x, posicaoGradeBloco.y);
+    }
+
+    public void CobraSeMoveu(Vector2Int posicaoGradeCobra)
+    {
+        if(posicaoGradeCobra == posicaoGradeBloco)
+        {
+            Object.Destroy(blocoObjeto);
+            GerarComida();
+        }
     }
 }
