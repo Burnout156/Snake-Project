@@ -14,6 +14,7 @@ public class Cobra : MonoBehaviour
     private GradeNivel gradeNivel;
     public List<KeyCode> botoesMovimento; //para diferenciar os botões de movimentação de cada jogador
     public List<Vector2Int> listaPosicoesMovimentosCobra; //para saber quais lugares ela passou e assim colocar os quadrados nos lugares
+    public List<Transform> listaPosicoesCorpoCobra; //para saber quais posições o corpo da cobra está
     public int tamanhoCorpoCobra; //para saber quantos quadrados vão ter que ser postos acoplados a cobra
 
     void Start()
@@ -23,6 +24,7 @@ public class Cobra : MonoBehaviour
         movimentacaoTempoGrade = movimentacaoTempoGradeMaximo;
         posicaoGrade = new Vector2Int(posicaoInicial.x, posicaoInicial.y);
         listaPosicoesMovimentosCobra = new List<Vector2Int>();
+        listaPosicoesCorpoCobra = new List<Transform>();
         tamanhoCorpoCobra = 0;
         //posicaoGrade.y += 1;
     }
@@ -76,16 +78,39 @@ public class Cobra : MonoBehaviour
                 listaPosicoesMovimentosCobra.RemoveAt(listaPosicoesMovimentosCobra.Count - 1);
             }
 
-            for(int i = 0; i < listaPosicoesMovimentosCobra.Count; i++)
-            {
-                Vector2Int posicaoMovimentoCobra = listaPosicoesMovimentosCobra[i];
-                SpriteGlobal spriteGlobal =  SpriteGlobal.Criar(new Vector3(posicaoMovimentoCobra.x, posicaoMovimentoCobra.y), Vector3.one * .5f, Color.white);
-                FuncaoTemporizadora.Criar(spriteGlobal.AutoDestruicao, movimentacaoTempoGradeMaximo);
-            }
-
             transform.position = new Vector3(posicaoGrade.x, posicaoGrade.y); //e aqui ele se movimenta conforme o jogador desejar
             transform.eulerAngles = new Vector3(0, 0, PegarAngulo(direcaoMovimentoGrade));
 
+            ModificarPosicaoCorpo();
+        }
+    }
+
+    public void ModificarPosicaoCorpo()
+    {
+        for (int i = 0; i < listaPosicoesMovimentosCobra.Count; i++)
+        {
+            Vector2 posicaoCorpo = new Vector2(listaPosicoesMovimentosCobra[i].x, listaPosicoesMovimentosCobra[i].y);
+            listaPosicoesCorpoCobra[i].position = posicaoCorpo;
+        }
+    }
+
+    private void CriarCorpoCobra()
+    {
+        GameObject objetoCorpoCobra = new GameObject("SnakeBody", typeof(SpriteRenderer));
+        objetoCorpoCobra.GetComponent<SpriteRenderer>().sprite = RecursosJogo.instancia.corpoCobraSprite;
+        listaPosicoesCorpoCobra.Add(objetoCorpoCobra.transform);
+
+        if (tamanhoCorpoCobra == 1)
+        {
+            listaPosicoesMovimentosCobra.Insert(0, posicaoGrade -= direcaoMovimentoGrade); //isso é pra inserir o movimento anterior que a cobra tinha feito para que coloque o novo corpo
+            objetoCorpoCobra.transform.position = new Vector2(listaPosicoesMovimentosCobra[listaPosicoesMovimentosCobra.Count - 1].x, //já que a cobra não tem nenhum na lista de posições anteriores
+                                                              listaPosicoesMovimentosCobra[listaPosicoesMovimentosCobra.Count - 1].y);
+        }
+
+        else
+        {
+            objetoCorpoCobra.transform.position = new Vector2(listaPosicoesMovimentosCobra[listaPosicoesMovimentosCobra.Count - 1].x, 
+                                                              listaPosicoesMovimentosCobra[listaPosicoesMovimentosCobra.Count - 1].y);
         }
     }
 
@@ -108,6 +133,7 @@ public class Cobra : MonoBehaviour
             Destroy(collision.gameObject);
             gradeNivel.GerarComida();
             tamanhoCorpoCobra++;
+            CriarCorpoCobra();
         }
     }
 }

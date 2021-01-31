@@ -14,6 +14,8 @@ public class RecursosJogo : MonoBehaviour
     }
 
     public Sprite cabecaCobraSprite;
+    public Sprite corpoCobraSprite;
     public Sprite blocoSprite;
+
 
 }
