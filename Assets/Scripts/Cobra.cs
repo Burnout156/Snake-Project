@@ -17,6 +17,7 @@ public class Cobra : MonoBehaviour
     public List<Vector2Int> listaPosicoesMovimentosCobra; //para saber quais lugares ela passou e assim colocar os quadrados nos lugares
     public List<Transform> listaPosicoesCorpoCobra; //para saber quais posições o corpo da cobra está
     public int tamanhoCorpoCobra; //para saber quantos quadrados vão ter que ser postos acoplados a cobra
+    public int blocosComidos;
 
     void Start()
     {
@@ -178,6 +179,8 @@ public class Cobra : MonoBehaviour
             Destroy(collision.gameObject);
             gradeNivel.GerarComida();
             tamanhoCorpoCobra++;
+            blocosComidos++;
+            AutoSave.Salvar(blocosComidos);
             CriarCorpoCobra();
         }
     }

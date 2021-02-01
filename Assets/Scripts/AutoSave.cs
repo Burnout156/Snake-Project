@@ -1,18 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+
+[System.Serializable]
+public struct TipoDados
+{
+    public int blocosComidos;
+}
 
 public class AutoSave : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public static string caminhoArquivo;
+    public static string caminhoPasta;
+    public static TipoDados tipoDados;
+
+    private void Start()
     {
-        
+        caminhoArquivo = Application.dataPath + "/LocalSave" + "/" + "Save" + ".json";
+        caminhoPasta = Application.dataPath + "/LocalSave";
+
+        if(!Directory.Exists(caminhoPasta))
+        {
+            Directory.CreateDirectory(caminhoPasta);
+        }
+    }
+    public static void Salvar(int _blocosComidos)
+    {
+        tipoDados.blocosComidos = _blocosComidos;
+        string json = JsonUtility.ToJson(tipoDados);
+        File.WriteAllText(caminhoArquivo, json);
     }
 }
