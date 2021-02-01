@@ -9,6 +9,7 @@ public class Cobra : MonoBehaviour
     private Vector2Int posicaoGrade; //para saber a posição da cobra no espaço do mapa
     public Vector2Int posicaoInicial; //para saber onde cada cobra vai começar
     public Vector2Int direcaoInicial; //para saber qual direção cada cobra vai começar
+    public ManipuladorJogo manipuladorJogo;
     private float movimentacaoTempoGrade; //variável para se movimentar automaticamente a cada segundo
     private float movimentacaoTempoGradeMaximo; //variável para saber o máximo de passos que ele pode se mover automaticamente a cada segundo
     private GradeNivel gradeNivel;
@@ -19,6 +20,7 @@ public class Cobra : MonoBehaviour
 
     void Start()
     {
+        manipuladorJogo = GameObject.FindObjectOfType<ManipuladorJogo>();
         direcaoMovimentoGrade = new Vector2Int(direcaoInicial.x, direcaoInicial.y);
         movimentacaoTempoGradeMaximo = 0.3f;
         movimentacaoTempoGrade = movimentacaoTempoGradeMaximo;
@@ -44,22 +46,54 @@ public class Cobra : MonoBehaviour
     {
         if (Input.GetKeyDown(botoesMovimento[0])) //se apertar a tecla pra cima, ele acrescenta o valor y
         {
-            direcaoMovimentoGrade = new Vector2Int(0, 1);
+            if (direcaoMovimentoGrade.y != -1 && tamanhoCorpoCobra > 0) //isso é para o jogador não se matar sem querer quando estiver com um corpo ao se mover para o lado oposto
+            {
+                direcaoMovimentoGrade = new Vector2Int(0, 1);
+            }
+
+            else if (tamanhoCorpoCobra == 0)
+            {
+                direcaoMovimentoGrade = new Vector2Int(0, 1);
+            }
         }
 
         if (Input.GetKeyDown(botoesMovimento[1])) //se apertar a tecla pra baixo, ele diminuiu o valor y
         {
-            direcaoMovimentoGrade = new Vector2Int(0, -1);
+            if (direcaoMovimentoGrade.y != 1 && tamanhoCorpoCobra > 0) //isso é para o jogador não se matar sem querer quando estiver com um corpo ao se mover para o lado oposto
+            { 
+                direcaoMovimentoGrade = new Vector2Int(0, -1);
+            }
+
+            else if (tamanhoCorpoCobra == 0)
+            {
+                direcaoMovimentoGrade = new Vector2Int(0, -1);
+            }
         }
 
         if (Input.GetKeyDown(botoesMovimento[2])) //se apertar a tecla pra esquerda, ele diminuiu o valor x
         {
-            direcaoMovimentoGrade = new Vector2Int(-1, 0);
+            if (direcaoMovimentoGrade.x != 1 && tamanhoCorpoCobra > 0) //isso é para o jogador não se matar sem querer quando estiver com um corpo ao se mover para o lado oposto
+            {
+                direcaoMovimentoGrade = new Vector2Int(-1, 0);
+            }
+
+            else if(tamanhoCorpoCobra == 0)
+            {
+                direcaoMovimentoGrade = new Vector2Int(-1, 0);
+            }
         }
 
         if (Input.GetKeyDown(botoesMovimento[3])) //se apertar a tecla pro lado, ele acrescenta o valor x
         {
-            direcaoMovimentoGrade = new Vector2Int(1, 0);
+            if (direcaoMovimentoGrade.x != -1 && tamanhoCorpoCobra > 0) //isso é para o jogador não se matar sem querer quando estiver com um corpo ao se mover para o lado oposto
+            {
+                direcaoMovimentoGrade = new Vector2Int(1, 0);
+            }
+
+            else if (tamanhoCorpoCobra == 0)
+            {
+                direcaoMovimentoGrade = new Vector2Int(1, 0);
+            }
         }
     }
 
@@ -73,9 +107,19 @@ public class Cobra : MonoBehaviour
             listaPosicoesMovimentosCobra.Insert(0, posicaoGrade);
             posicaoGrade += direcaoMovimentoGrade;
 
+            posicaoGrade = gradeNivel.ValidarPosicaoGrade(posicaoGrade);
+
             if (listaPosicoesMovimentosCobra.Count >= tamanhoCorpoCobra + 1)
             {
                 listaPosicoesMovimentosCobra.RemoveAt(listaPosicoesMovimentosCobra.Count - 1);
+            }
+
+            foreach(Transform listaPosicaoCorpoCobra in listaPosicoesCorpoCobra) //para saber se a cabeça da cobra encostou em alguma parte do corpo
+            {
+                if(posicaoGrade == new Vector2(listaPosicaoCorpoCobra.position.x, listaPosicaoCorpoCobra.position.y))
+                {
+                    manipuladorJogo.GameOver();
+                }
             }
 
             transform.position = new Vector3(posicaoGrade.x, posicaoGrade.y); //e aqui ele se movimenta conforme o jogador desejar
@@ -109,7 +153,7 @@ public class Cobra : MonoBehaviour
 
         else
         {
-            objetoCorpoCobra.transform.position = new Vector2(listaPosicoesMovimentosCobra[listaPosicoesMovimentosCobra.Count - 1].x, 
+            objetoCorpoCobra.transform.position = new Vector2(listaPosicoesMovimentosCobra[listaPosicoesMovimentosCobra.Count - 1].x,
                                                               listaPosicoesMovimentosCobra[listaPosicoesMovimentosCobra.Count - 1].y);
         }
     }
@@ -126,6 +170,7 @@ public class Cobra : MonoBehaviour
         return angle;
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag.Equals("block")) //se a cobra encostar no bloco, ela destroi
@@ -137,3 +182,5 @@ public class Cobra : MonoBehaviour
         }
     }
 }
+
+

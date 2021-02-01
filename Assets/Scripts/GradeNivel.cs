@@ -44,4 +44,29 @@ public class GradeNivel : MonoBehaviour
             GerarComida();
         }
     }
+
+    public Vector2Int ValidarPosicaoGrade(Vector2Int _posicaoGrade)
+    {
+        if (_posicaoGrade.x < -17)
+        {
+            _posicaoGrade.x = largura + 9;
+        }
+
+        if (_posicaoGrade.y < -9)
+        {
+            _posicaoGrade.y = altura + 5;
+        }
+
+        if (_posicaoGrade.x > 17)
+        {
+            _posicaoGrade.x = largura - 25;
+        }
+
+        if (_posicaoGrade.y > 9)
+        {
+            _posicaoGrade.y = altura - 13;
+        }
+
+        return _posicaoGrade;
+    }
 }
