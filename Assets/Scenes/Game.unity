@@ -368,7 +368,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17544094, y: 0.88488585}
   m_AnchorMax: {x: 0.34933153, y: 0.9694415}
-  m_AnchoredPosition: {x: 952, y: 1.8000183}
+  m_AnchoredPosition: {x: 952.00006, y: 1.8000183}
   m_SizeDelta: {x: -5.6384277, y: 4.3414917}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &418875664
@@ -1333,6 +1333,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 634114082378088380, guid: 4230357198208d840b8dc13121f2fe18, type: 3}
+      propertyPath: nomeJogador
+      value: Jogador 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 634114082378088380, guid: 4230357198208d840b8dc13121f2fe18, type: 3}
       propertyPath: direcaoInicial.x
       value: -1
       objectReference: {fileID: 0}
@@ -2081,7 +2085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cabecaCobraSprite: {fileID: 21300000, guid: a6389c1368f3c0348a4a4d02194be695, type: 3}
-  corpoCobraSprite: {fileID: 21300000, guid: 0eaf3bdd474141b4ca61d6f4b3ac1bb4, type: 3}
+  corpoCobraSprite: {fileID: 2914241717139153786, guid: 68784a4f224ad66479ced543a0d78f40, type: 3}
   blocoSprite: {fileID: 21300000, guid: 056fc9fddde5f8d4f8ff107e54cbe030, type: 3}
 --- !u!4 &1885092990
 Transform:
@@ -2406,6 +2410,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 634114082378088380, guid: 4230357198208d840b8dc13121f2fe18, type: 3}
+      propertyPath: nomeJogador
+      value: Jogador 1
+      objectReference: {fileID: 0}
     - target: {fileID: 634114082378088380, guid: 4230357198208d840b8dc13121f2fe18, type: 3}
       propertyPath: direcaoInicial.x
       value: 1

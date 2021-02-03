@@ -139,7 +139,7 @@ public class Cobra : MonoBehaviour
             {
                 if(this.posicaoGrade == new Vector2(listaPosicaoCorpoCobra.position.x, listaPosicaoCorpoCobra.position.y))
                 {
-                    this.manipuladorJogo.GameOver();
+                    this.manipuladorJogo.GameOver(nomeJogador);
                 }
             }
 
@@ -163,10 +163,6 @@ public class Cobra : MonoBehaviour
                 posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x, this.listaPosicoesMovimentosCobra[i].y);
             }
 
-            /* else
-             {
-                 posicaoCorpo = new Vector2(listaPosicoesMovimentosCobra[i].x + multiplicadorX, listaPosicoesMovimentosCobra[i].y + multiplicadorY);                
-             }*/
             else //aqui estou tentando fazer com que a cobra que ande de 2 em 2 blocos consiga ter o corpo bem acoplado a ela
             {
                 if (this.direcaoMovimentoGrade.x == 2)
@@ -201,23 +197,14 @@ public class Cobra : MonoBehaviour
 
             }
 
-
-            // posicaoCorpo = new Vector2(listaPosicoesMovimentosCobra[i].x + multiplicadorX, listaPosicoesMovimentosCobra[i].y + multiplicadorY);
-
-            //posicaoCorpo = new Vector2(listaPosicoesMovimentosCobra[i].x + multiplicadorX, listaPosicoesMovimentosCobra[i].y + multiplicadorY);
-            /*multiplicadorX++;
-            multiplicadorY++;*/
-
-            //}
-
             this.listaPosicoesCorpoCobra[i].position = posicaoCorpo;
         }
     }
 
     private void CriarCorpoCobra()
     {
-        GameObject objetoCorpoCobra = new GameObject("SnakeBody", typeof(SpriteRenderer));
-        objetoCorpoCobra.GetComponent<SpriteRenderer>().sprite = RecursosJogo.instancia.corpoCobraSprite;
+        GameObject objetoCorpoCobra;
+        objetoCorpoCobra = Instantiate(RecursosJogo.instancia.corpoCobraSprite);
         this.listaPosicoesCorpoCobra.Add(objetoCorpoCobra.transform);
 
         if (this.tamanhoCorpoCobra == 1)

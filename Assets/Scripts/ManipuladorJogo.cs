@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ManipuladorJogo : MonoBehaviour
 {
@@ -25,9 +26,10 @@ public class ManipuladorJogo : MonoBehaviour
         painelGameOver.SetActive(false);
     }
 
-    public void GameOver()
+    public void GameOver(string _nomeJogador)
     {
         painelGameOver.SetActive(true);
+        painelGameOver.GetComponentInChildren<Text>().text = _nomeJogador + " Perdeu";
         Time.timeScale = 0f;
     }
 
