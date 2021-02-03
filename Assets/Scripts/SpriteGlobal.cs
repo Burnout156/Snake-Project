@@ -1,5 +1,5 @@
-﻿using CodeMonkey;
-using CodeMonkey.Utils;
+﻿using Codigos;
+using Codigos.Util;
 using UnityEngine;
 
 namespace Codigos
@@ -15,14 +15,14 @@ namespace Codigos
 
         public static SpriteGlobal CriarBotaoDebugar(Vector3 posicao, System.Action funcaoClick)
         {
-            SpriteGlobal worldSprite = new SpriteGlobal(null, posicao, new Vector3(10, 10), Assets.i.s_White, Color.green, sortingOrderDefault);
+            SpriteGlobal worldSprite = new SpriteGlobal(null, posicao, new Vector3(10, 10), Recursos.i.spriteBranco, Color.green, sortingOrderDefault);
             worldSprite.AddButton(funcaoClick, null, null);
             return worldSprite;
         }
 
         public static SpriteGlobal CriarBotaoDebugar(Transform parent, Vector3 localPosition, System.Action ClickFunc)
         {
-            SpriteGlobal worldSprite = new SpriteGlobal(parent, localPosition, new Vector3(10, 10), Assets.i.s_White, Color.green, sortingOrderDefault);
+            SpriteGlobal worldSprite = new SpriteGlobal(parent, localPosition, new Vector3(10, 10), Recursos.i.spriteBranco, Color.green, sortingOrderDefault);
             worldSprite.AddButton(ClickFunc, null, null);
             return worldSprite;
         }
@@ -32,16 +32,16 @@ namespace Codigos
             GameObject gameObject = new GameObject("DebugButton");
             gameObject.transform.parent = parent;
             gameObject.transform.localPosition = localPosition;
-            TextMesh textMesh = UtilsClass.CreateWorldText(text, gameObject.transform, Vector3.zero, fontSize, Color.white, TextAnchor.MiddleCenter, TextAlignment.Center, 20000);
+            TextMesh textMesh = ClasseUtilidade.CreateWorldText(text, gameObject.transform, Vector3.zero, fontSize, Color.white, TextAnchor.MiddleCenter, TextAlignment.Center, 20000);
             Bounds rendererBounds = textMesh.GetComponent<MeshRenderer>().bounds;
 
-            Color color = UtilsClass.GetColorFromString("00BA00FF");
+            Color color = ClasseUtilidade.GetColorFromString("00BA00FF");
             if (color.r >= 1f) color.r = .9f;
             if (color.g >= 1f) color.g = .9f;
             if (color.b >= 1f) color.b = .9f;
             Color colorOver = color * 1.1f; // button over color lighter
 
-            SpriteGlobal worldSprite = new SpriteGlobal(gameObject.transform, Vector3.zero, rendererBounds.size + new Vector3(paddingX, paddingY), Assets.i.s_White, color, sortingOrderDefault);
+            SpriteGlobal worldSprite = new SpriteGlobal(gameObject.transform, Vector3.zero, rendererBounds.size + new Vector3(paddingX, paddingY), Recursos.i.spriteBranco, color, sortingOrderDefault);
             worldSprite.AddButton(ClickFunc, () => worldSprite.SetColor(colorOver), () => worldSprite.SetColor(color));
             return worldSprite;
         }
@@ -63,17 +63,17 @@ namespace Codigos
 
         public static SpriteGlobal Criar(Vector3 worldPosition, Vector3 localScale, Color color)
         {
-            return new SpriteGlobal(null, worldPosition, localScale, Assets.i.s_White, color, 0);
+            return new SpriteGlobal(null, worldPosition, localScale, Recursos.i.spriteBranco, color, 0);
         }
 
         public static SpriteGlobal Criar(Vector3 worldPosition, Vector3 localScale)
         {
-            return new SpriteGlobal(null, worldPosition, localScale, Assets.i.s_White, Color.white, 0);
+            return new SpriteGlobal(null, worldPosition, localScale, Recursos.i.spriteBranco, Color.white, 0);
         }
 
         public static SpriteGlobal Criar(Vector3 worldPosition, Vector3 localScale, int sortingOrderOffset)
         {
-            return new SpriteGlobal(null, worldPosition, localScale, Assets.i.s_White, Color.white, sortingOrderOffset);
+            return new SpriteGlobal(null, worldPosition, localScale, Recursos.i.spriteBranco, Color.white, sortingOrderOffset);
         }
 
         public static int GetSortingOrder(Vector3 position, int offset, int baseSortingOrder = sortingOrderDefault)
@@ -84,7 +84,7 @@ namespace Codigos
         public SpriteGlobal(Transform parent, Vector3 localPosition, Vector3 localScale, Sprite sprite, Color color, int sortingOrderOffset)
         {
             int sortingOrder = GetSortingOrder(localPosition, sortingOrderOffset);
-            objetoJogo = UtilsClass.CreateWorldSprite(parent, "Sprite", sprite, localPosition, localScale, sortingOrder, color);
+            objetoJogo = ClasseUtilidade.CriarSpriteCenario(parent, "Sprite", sprite, localPosition, localScale, sortingOrder, color);
             transformacao = objetoJogo.transform;
             spriteRenderer = objetoJogo.GetComponent<SpriteRenderer>();
         }

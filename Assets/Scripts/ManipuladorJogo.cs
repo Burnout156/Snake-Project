@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class ManipuladorJogo : MonoBehaviour
 {
     [SerializeField]
-    private Cobra cobra;
+    private List<Cobra> cobras;
     private GradeNivel gradeNivel;
     public GameObject painelGameOver;
 
@@ -14,8 +14,14 @@ public class ManipuladorJogo : MonoBehaviour
     {
         Debug.Log("ManipuladorJogo.Começou");
         gradeNivel = new GradeNivel(8, 4); //aqui é pra passar o parâmetro máximo da grade onde ocorrerá o jogo
-        cobra.Configuracao(gradeNivel);
-        gradeNivel.Configuracao(cobra);
+        cobras.AddRange(GameObject.FindObjectsOfType<Cobra>());
+
+        foreach (Cobra _cobra in cobras)
+        {
+            _cobra.Configuracao(gradeNivel);
+            gradeNivel.Configuracao(_cobra);
+        }
+
         painelGameOver.SetActive(false);
     }
 

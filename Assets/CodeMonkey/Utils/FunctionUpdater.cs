@@ -14,7 +14,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace CodeMonkey {
+namespace Codigos {
 
     /*
      * Calls function on every Update until it returns true
