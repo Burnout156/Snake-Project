@@ -1,5 +1,5 @@
 ﻿using Codigos;
-using Codigos.Util;
+using Codigos.Uteis;
 using UnityEngine;
 
 namespace Codigos

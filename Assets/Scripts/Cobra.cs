@@ -19,7 +19,7 @@ public class Cobra : MonoBehaviour
     public List<Transform> listaPosicoesCorpoCobra; //para saber quais posições o corpo da cobra está
     public int tamanhoCorpoCobra; //para saber quantos quadrados vão ter que ser postos acoplados a cobra
     public int blocosComidos; //para saber quantos blocos foram comidos e assim acrescentar velocidade
-    public string nomeJogador;
+    public string nomeJogador; //para saber qual jogador perdeu
 
     void Start()
     {
@@ -174,14 +174,14 @@ public class Cobra : MonoBehaviour
                 else if (this.direcaoMovimentoGrade.x == -2)
                 {
                     multiplicadorX = -1 + (-i);
-                    posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x + multiplicadorX, this.listaPosicoesMovimentosCobra[i].y);
+                    posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x + multiplicadorX, this.listaPosicoesMovimentosCobra[i].y); //ta certo
                 }
 
 
                 else if (this.direcaoMovimentoGrade.y == 2)
                 {
                     multiplicadorY = 1 + i;
-                    posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x, this.listaPosicoesMovimentosCobra[i].y + multiplicadorY);
+                    posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x, this.listaPosicoesMovimentosCobra[i].y - multiplicadorY);
                 }
 
                 else if (this.direcaoMovimentoGrade.y == -2)

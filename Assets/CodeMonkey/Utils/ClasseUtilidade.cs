@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace Codigos.Util
+namespace Codigos.Uteis
 {
     public static class ClasseUtilidade
     {
@@ -43,7 +43,6 @@ namespace Codigos.Util
             return Resources.GetBuiltinResource<Font>("Arial.ttf");
         }
 
-
         // Crie um Sprite no mundo, sem parentesco de objeto
         public static GameObject CriarSpriteCenario(string nome, Sprite imagem, Vector3 posicao, Vector3 escalaLocal, int ordemClassificacao, Color cor)
         {
@@ -51,33 +50,33 @@ namespace Codigos.Util
         }
 
         // Crie um Sprite no Cenário
-        public static GameObject CriarSpriteCenario(Transform parent, string name, Sprite sprite, Vector3 localPosition, Vector3 localScale, int sortingOrder, Color color)
+        public static GameObject CriarSpriteCenario(Transform paiObjeto, string nome, Sprite sprite, Vector3 posicaoLocal, Vector3 escalaLocal, int ordemClassificacao, Color cor)
         {
-            GameObject gameObject = new GameObject(name, typeof(SpriteRenderer));
+            GameObject gameObject = new GameObject(nome, typeof(SpriteRenderer));
             Transform transform = gameObject.transform;
-            transform.SetParent(parent, false);
-            transform.localPosition = localPosition;
-            transform.localScale = localScale;
+            transform.SetParent(paiObjeto, false);
+            transform.localPosition = posicaoLocal;
+            transform.localScale = escalaLocal;
             SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = sprite;
-            spriteRenderer.sortingOrder = sortingOrder;
-            spriteRenderer.color = color;
+            spriteRenderer.sortingOrder = ordemClassificacao;
+            spriteRenderer.color = cor;
             return gameObject;
         }
 
         // Crie um Sprite no Mundo com Botão Sprite, sem parentesco de objeto
-        public static Button_Sprite BotaoCriarSpriteCenario(string name, Sprite sprite, Vector3 localPosition, Vector3 localScale, int sortingOrder, Color color)
+        public static Button_Sprite BotaoCriarSpriteCenario(string nome, Sprite sprite, Vector3 posicaoLocal, Vector3 escalaLocal, int ordemClassificacao, Color cor)
         {
-            return BotaoCriarSpriteCenario(null, name, sprite, localPosition, localScale, sortingOrder, color);
+            return BotaoCriarSpriteCenario(null, nome, sprite, posicaoLocal, escalaLocal, ordemClassificacao, cor);
         }
 
         // Crie um Sprite no Mundo com Botão Sprite
-        public static Button_Sprite BotaoCriarSpriteCenario(Transform parent, string name, Sprite sprite, Vector3 localPosition, Vector3 localScale, int sortingOrder, Color color)
+        public static Button_Sprite BotaoCriarSpriteCenario(Transform paiObjeto, string nome, Sprite sprite, Vector3 posicaoLocal, Vector3 escalaLocal, int ordemClassificacao, Color cor)
         {
-            GameObject gameObject = CriarSpriteCenario(parent, name, sprite, localPosition, localScale, sortingOrder, color);
+            GameObject gameObject = CriarSpriteCenario(paiObjeto, nome, sprite, posicaoLocal, escalaLocal, ordemClassificacao, cor);
             gameObject.AddComponent<BoxCollider2D>();
-            Button_Sprite buttonSprite = gameObject.AddComponent<Button_Sprite>();
-            return buttonSprite;
+            Button_Sprite botaoSprite = gameObject.AddComponent<Button_Sprite>();
+            return botaoSprite;
         }
 
         // Cria uma malha de texto no mundo e a atualiza constantemente

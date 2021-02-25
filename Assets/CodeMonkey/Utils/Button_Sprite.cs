@@ -18,7 +18,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
-namespace Codigos.Util {
+namespace Codigos.Uteis {
 
     /*
      * Button Actions on a World BoxCollider
