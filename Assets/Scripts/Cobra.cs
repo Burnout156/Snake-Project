@@ -33,30 +33,30 @@ public class Cobra : MonoBehaviour
         this.listaPosicoesCorpoCobra = new List<Transform>();
         tamanhoCorpoCobra = 0;
         PoderEngenharia();
-        //InvokeRepeating("MovimentaçãoMapa", 0, 0.04f - (tamanhoCorpoCobra / 100));
+        InvokeRepeating("MovimentaçãoMapa", 0, 0.01f /*- (tamanhoCorpoCobra * 0.01f)*/);
     }
 
     void Update()
     {
         //Invoke("BotaoMovimentacao", 10 - tamanhoCorpoCobra);
         BotaoMovimentacao();
-        MovimentaçãoMapa();
+        //MovimentaçãoMapa();
     }
 
     public void PoderEngenharia() //ENGINE POWER
     {
         switch (AutoSave.tipoDados.blocosComidos)
         {
-            case 0:
+            /*case 0:
                 velocidadeMovimentacao = 1;
                 break;
 
             case 1:
                 velocidadeMovimentacao = 2;
-                break;
+                break;*/
 
             default:
-                velocidadeMovimentacao = 2;
+                velocidadeMovimentacao = 1;
                 break;
         }
     }
@@ -75,7 +75,7 @@ public class Cobra : MonoBehaviour
                 direcaoMovimentoGrade = new Vector2Int(0, velocidadeMovimentacao);
             }
 
-            else if (tamanhoCorpoCobra == 0)
+            else
             {
                 direcaoMovimentoGrade = new Vector2Int(0, velocidadeMovimentacao);
             }
@@ -88,7 +88,7 @@ public class Cobra : MonoBehaviour
                 direcaoMovimentoGrade = new Vector2Int(0, -velocidadeMovimentacao);
             }
 
-            else if (tamanhoCorpoCobra == 0)
+            else
             {
                 direcaoMovimentoGrade = new Vector2Int(0, -velocidadeMovimentacao);
             }
@@ -101,7 +101,7 @@ public class Cobra : MonoBehaviour
                 direcaoMovimentoGrade = new Vector2Int(-velocidadeMovimentacao, 0);
             }
 
-            else if(tamanhoCorpoCobra == 0)
+            else
             {
                 direcaoMovimentoGrade = new Vector2Int(-velocidadeMovimentacao, 0);
             }
@@ -114,7 +114,7 @@ public class Cobra : MonoBehaviour
                 direcaoMovimentoGrade = new Vector2Int(velocidadeMovimentacao, 0);
             }
 
-            else if (tamanhoCorpoCobra == 0)
+            else
             {
                 direcaoMovimentoGrade = new Vector2Int(velocidadeMovimentacao, 0);
             }
@@ -123,7 +123,7 @@ public class Cobra : MonoBehaviour
 
     private void MovimentaçãoMapa()
     {
-        this.movimentacaoTempoGrade += Time.deltaTime * (tamanhoCorpoCobra + 1);
+        this.movimentacaoTempoGrade += Time.deltaTime;
 
         if (this.movimentacaoTempoGrade >= this.movimentacaoTempoGradeMaximo)
         {
@@ -244,14 +244,19 @@ public class Cobra : MonoBehaviour
         {
             Destroy(collision.gameObject);
             gradeNivel.GerarComida();
-            tamanhoCorpoCobra++;
-            //CancelInvoke("MovimentaçãoMapa");
+
+            //if (tamanhoCorpoCobra < 3)
+            //{
+                //tamanhoCorpoCobra++;
+            //}
+
+            CancelInvoke("MovimentaçãoMapa");
             blocosComidos++;
             AutoSave.Salvar(blocosComidos);
             CriarCorpoCobra();
-            PoderEngenharia();
+            //PoderEngenharia();
             Debug.Log("0.04" +  "-" + (tamanhoCorpoCobra * 0.01f));
-            //InvokeRepeating("MovimentaçãoMapa", 0, 0.04f - (tamanhoCorpoCobra * 0.01f));
+            InvokeRepeating("MovimentaçãoMapa", 0, 0.01f/* - (tamanhoCorpoCobra * 0.01f)*/);
         }
     }
 }

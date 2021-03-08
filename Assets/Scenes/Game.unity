@@ -1369,6 +1369,10 @@ PrefabInstance:
       value: "Cabe\xE7aCobra2"
       objectReference: {fileID: 0}
     - target: {fileID: 634114082378088381, guid: 4230357198208d840b8dc13121f2fe18, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 634114082378088381, guid: 4230357198208d840b8dc13121f2fe18, type: 3}
       propertyPath: m_TagString
       value: body
       objectReference: {fileID: 0}
