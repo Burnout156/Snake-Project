@@ -33,10 +33,12 @@ public class Cobra : MonoBehaviour
         this.listaPosicoesCorpoCobra = new List<Transform>();
         tamanhoCorpoCobra = 0;
         PoderEngenharia();
+        //InvokeRepeating("MovimentaçãoMapa", 0, 0.04f - (tamanhoCorpoCobra / 100));
     }
 
     void Update()
     {
+        //Invoke("BotaoMovimentacao", 10 - tamanhoCorpoCobra);
         BotaoMovimentacao();
         MovimentaçãoMapa();
     }
@@ -121,7 +123,7 @@ public class Cobra : MonoBehaviour
 
     private void MovimentaçãoMapa()
     {
-        this.movimentacaoTempoGrade += Time.deltaTime;
+        this.movimentacaoTempoGrade += Time.deltaTime * (tamanhoCorpoCobra + 1);
 
         if (this.movimentacaoTempoGrade >= this.movimentacaoTempoGradeMaximo)
         {
@@ -157,45 +159,46 @@ public class Cobra : MonoBehaviour
             Vector2 posicaoCorpo;
             int multiplicadorX = 0;
             int multiplicadorY = 0;
+            posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x, this.listaPosicoesMovimentosCobra[i].y);
+            //if (this.tamanhoCorpoCobra == 1) //caso o tamanho do corpo da cobra seje 1, o corpo pegará a posição anterior que foi de 1 passo
+            //{
+            //posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x, this.listaPosicoesMovimentosCobra[i].y);
+            //}
 
-            if (this.tamanhoCorpoCobra == 1) //caso o tamanho do corpo da cobra seje 1, o corpo pegará a posição anterior que foi de 1 passo
+            //else //aqui estou tentando fazer com que a cobra que ande de 2 em 2 blocos consiga ter o corpo bem acoplado a ela
+            //{
+            /*if (this.direcaoMovimentoGrade.x == 2)
+            {
+                multiplicadorX = 1 + i;
+                posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x + multiplicadorX, this.listaPosicoesMovimentosCobra[i].y);
+            }
+
+            else if (this.direcaoMovimentoGrade.x == -2)
+            {
+                multiplicadorX = 1 + (-i);
+                posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x + multiplicadorX, this.listaPosicoesMovimentosCobra[i].y); //ta certo
+            }
+
+
+            else if (this.direcaoMovimentoGrade.y == 2)
+            {
+                multiplicadorY = 1 + i;
+                posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x, this.listaPosicoesMovimentosCobra[i].y - multiplicadorY);
+            }
+
+            else if (this.direcaoMovimentoGrade.y == -2)
+            {
+                multiplicadorY = 1 + (-i);
+                posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x, this.listaPosicoesMovimentosCobra[i].y + multiplicadorY);
+            }                
+
+            else
             {
                 posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x, this.listaPosicoesMovimentosCobra[i].y);
-            }
+            }*/
 
-            else //aqui estou tentando fazer com que a cobra que ande de 2 em 2 blocos consiga ter o corpo bem acoplado a ela
-            {
-                if (this.direcaoMovimentoGrade.x == 2)
-                {
-                    multiplicadorX = 1 + i;
-                    posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x + multiplicadorX, this.listaPosicoesMovimentosCobra[i].y);
-                }
+            //}
 
-                else if (this.direcaoMovimentoGrade.x == -2)
-                {
-                    multiplicadorX = -1 + (-i);
-                    posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x + multiplicadorX, this.listaPosicoesMovimentosCobra[i].y); //ta certo
-                }
-
-
-                else if (this.direcaoMovimentoGrade.y == 2)
-                {
-                    multiplicadorY = 1 + i;
-                    posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x, this.listaPosicoesMovimentosCobra[i].y - multiplicadorY);
-                }
-
-                else if (this.direcaoMovimentoGrade.y == -2)
-                {
-                    multiplicadorY = -1 + (-i);
-                    posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x, this.listaPosicoesMovimentosCobra[i].y + multiplicadorY);
-                }                 
-               
-                else
-                {
-                    posicaoCorpo = new Vector2(this.listaPosicoesMovimentosCobra[i].x, this.listaPosicoesMovimentosCobra[i].y);
-                }
-
-            }
 
             this.listaPosicoesCorpoCobra[i].position = posicaoCorpo;
         }
@@ -207,19 +210,19 @@ public class Cobra : MonoBehaviour
         objetoCorpoCobra = Instantiate(RecursosJogo.instancia.corpoCobraSprite);
         this.listaPosicoesCorpoCobra.Add(objetoCorpoCobra.transform);
 
-        if (this.tamanhoCorpoCobra == 1)
-        {
-            this.listaPosicoesMovimentosCobra.Insert(0, this.posicaoGrade -= this.direcaoMovimentoGrade); //isso é pra inserir o movimento anterior que a cobra tinha feito para que coloque o novo corpo
-            objetoCorpoCobra.transform.position = new Vector2(this.listaPosicoesMovimentosCobra[this.listaPosicoesMovimentosCobra.Count - 1].x, //já que a cobra não tem nenhum na lista de posições anteriores
-                                                              this.listaPosicoesMovimentosCobra[this.listaPosicoesMovimentosCobra.Count - 1].y);
+        //if (this.tamanhoCorpoCobra == 1)
+       // {
+        this.listaPosicoesMovimentosCobra.Insert(0, this.posicaoGrade -= this.direcaoMovimentoGrade); //isso é pra inserir o movimento anterior que a cobra tinha feito para que coloque o novo corpo
+        objetoCorpoCobra.transform.position = new Vector2(this.listaPosicoesMovimentosCobra[this.listaPosicoesMovimentosCobra.Count - 1].x , //já que a cobra não tem nenhum na lista de posições anteriores
+                                                          this.listaPosicoesMovimentosCobra[this.listaPosicoesMovimentosCobra.Count - 1].y);
 
-        }
+       // }
 
-        else
+        /*else
         {          
             objetoCorpoCobra.transform.position = new Vector2(this.listaPosicoesMovimentosCobra[this.listaPosicoesMovimentosCobra.Count - 1].x ,
                                                               this.listaPosicoesMovimentosCobra[this.listaPosicoesMovimentosCobra.Count - 1].y);
-        }
+        }*/
     }
 
     private float PegarAngulo(Vector2Int direcao)
@@ -242,10 +245,13 @@ public class Cobra : MonoBehaviour
             Destroy(collision.gameObject);
             gradeNivel.GerarComida();
             tamanhoCorpoCobra++;
+            //CancelInvoke("MovimentaçãoMapa");
             blocosComidos++;
             AutoSave.Salvar(blocosComidos);
             CriarCorpoCobra();
             PoderEngenharia();
+            Debug.Log("0.04" +  "-" + (tamanhoCorpoCobra * 0.01f));
+            //InvokeRepeating("MovimentaçãoMapa", 0, 0.04f - (tamanhoCorpoCobra * 0.01f));
         }
     }
 }
