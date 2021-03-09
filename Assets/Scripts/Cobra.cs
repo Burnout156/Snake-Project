@@ -207,14 +207,14 @@ public class Cobra : MonoBehaviour
     private void CriarCorpoCobra()
     {
         GameObject objetoCorpoCobra;
-        objetoCorpoCobra = Instantiate(RecursosJogo.instancia.corpoCobraSprite);
+        objetoCorpoCobra = Instantiate(RecursosJogo.instancia.corpoCobraSprite, this.posicaoGrade -= this.direcaoMovimentoGrade);
         this.listaPosicoesCorpoCobra.Add(objetoCorpoCobra.transform);
 
         //if (this.tamanhoCorpoCobra == 1)
        // {
         this.listaPosicoesMovimentosCobra.Insert(0, this.posicaoGrade -= this.direcaoMovimentoGrade); //isso é pra inserir o movimento anterior que a cobra tinha feito para que coloque o novo corpo
         objetoCorpoCobra.transform.position = new Vector2(this.listaPosicoesMovimentosCobra[this.listaPosicoesMovimentosCobra.Count - 1].x , //já que a cobra não tem nenhum na lista de posições anteriores
-                                                          this.listaPosicoesMovimentosCobra[this.listaPosicoesMovimentosCobra.Count - 1].y);
+                                                          this.listaPosicoesMovimentosCobra[this.listaPosicoesMovimentosCobra.Count - 1].y );
 
        // }
 
